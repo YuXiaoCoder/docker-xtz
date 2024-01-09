@@ -1,0 +1,33 @@
+# 指定 Docker Compose File 的版本号
+version: '3'
+
+# 定义多个服务并配置启动参数
+services:
+  xtz:
+    # 指定用户
+    user: root
+    # 指定主机名
+    hostname: xtz
+    # 指定容器名
+    container_name: xtz
+    # 指定镜像
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # 指定环境变量
+    environment:
+      # 拦截启动节点服务，便于人工调试
+      NODE_ENABLE: "1"
+      # 外部节点，用于校验
+      EXTERNAL_ENDPOINT: ""
+    # 特权模式
+    privileged: true
+    # 磁盘挂载
+    volumes:
+      - "/mnt/xtzmain:/mnt/xtzmain"
+    # 暴露端口号
+    ports:
+      - "8732:8732"
+      - "9732:9732"
+    # 自动重启
+    restart: always
